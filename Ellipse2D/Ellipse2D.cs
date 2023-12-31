@@ -13,6 +13,22 @@ namespace Ellipse2D
         public DoubleCollection StrokeDash { get; set; }
 
         public SolidColorBrush Brush { get; set; }
-        
+        public string Name => "Ellipse";
+        public string Icon => "Images/ellipse.png";
+
+
+        public void HandleStart(double x, double y)
+        {
+            _leftTop.X = x;
+            _leftTop.Y = y;
+        }
+
+        public void HandleEnd(double x, double y)
+        {
+            _rightBottom.X = x;
+            _rightBottom.Y = y;
+        }
+
+       
     }
 }
