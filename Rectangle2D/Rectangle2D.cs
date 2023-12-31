@@ -64,6 +64,22 @@ namespace Rectangle2D
             return new Rectangle2D();
         }
 
-        
+        override public CShape deepCopy()
+        {
+            Rectangle2D temp = new Rectangle2D();
+
+            temp.LeftTop = this._leftTop.deepCopy();
+            temp.RightBottom = this._rightBottom.deepCopy();
+            temp._rotateAngle = this._rotateAngle;
+            temp.Thickness = this.Thickness;
+
+            if (this.Brush != null)
+                temp.Brush = this.Brush.Clone();
+
+            if (this.StrokeDash != null)
+                temp.StrokeDash = this.StrokeDash.Clone();
+
+            return temp;
+        }
     }
 }
