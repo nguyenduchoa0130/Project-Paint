@@ -27,5 +27,48 @@ namespace Line2D
 			_rightBottom = new Point2D() { X = x, Y = y };
 		}
 
+		public UIElement Draw(SolidColorBrush brush, int thickness, DoubleCollection dash)
+		{
+			Line line = new Line()
+			{
+				X1 = _leftTop.X,
+				Y1 = _leftTop.Y,
+				X2 = _rightBottom.X,
+				Y2 = _rightBottom.Y,
+				StrokeThickness = thickness,
+				Stroke = brush,
+				StrokeDashArray = dash
+			};
+
+			var width = Math.Abs(_leftTop.X - _rightBottom.X);
+			var height = Math.Abs(_leftTop.Y - _rightBottom.Y);
+
+			RotateTransform transform = new RotateTransform(this._rotateAngle);
+
+			line.RenderTransform = transform;
+			return line;
+		}
+		
+		public IShape Clone()
+		{
+			return new Line2D();
+		}
+		override public CShape deepCopy()
+		{
+			Line2D temp = new Line2D();
+
+			temp.LeftTop = this._leftTop.deepCopy();
+			temp.RightBottom = this._rightBottom.deepCopy();
+			temp._rotateAngle = this._rotateAngle;
+			temp.Thickness = this.Thickness;
+
+			if (this.Brush != null)
+				temp.Brush = this.Brush.Clone();
+
+			if (this.StrokeDash != null)
+				temp.StrokeDash = this.StrokeDash.Clone();
+
+			return temp;
+		}
 	}
 }
