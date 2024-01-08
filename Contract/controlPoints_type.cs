@@ -7,61 +7,58 @@ using System.Windows;
 
 namespace Contract
 {
+	public class diagPoint : controlPoint
+	{
+		public override string type => "diag";
+	}
 	public class rotatePoint : controlPoint
 	{
 		public override string type => "rotate";
 	}
 
-	public class diagPoint : controlPoint
-	{
-		public override string type => "diag";
-	}
-
 	public class oneSidePoint : controlPoint
 	{
 		public override string type => "diag";
-
-		public override string getEdge(double angle)
+		public override string getEdge(double angleDraw)
 		{
 			string[] edge = { "top", "right", "bottom", "left" };
-			int index = 0;
+			int idx = 0;
 			if (centrePoint.X == point.X)
 				if (centrePoint.Y > point.Y)
-					index = 0;
+					idx = 0;
 				else
-					index = 2;
+					idx = 2;
 			else
 				if(centrePoint.Y == point.Y)
-				if (centrePoint.X > point.X)
-					index = 3;
-				else
-					index = 1;
+					if (centrePoint.X > point.X)
+						idx = 3;
+					else
+						idx = 1;
 
-			double rot = angle;
+			double rot = angleDraw;
 
 			if(rot > 0)
-			while(true)
-			{
-				rot -= 90;
-				if (rot < 0)
-					break;
-				index++;
+				while(true)
+				{
+					rot -= 90;
+					if (rot < 0)
+						break;
+					idx++;
 
-				if (index == 4)
-					index = 0;
-			}
+					if (idx == 4)
+						idx = 0;
+				}
 			else
-			while(true)
-			{
-				rot += 90;
-				if (rot > 0)
-					break;
-				index--;
-				if (index == -1)
-					index = 3;
-			};
-
-			return edge[index];
+				while(true)
+				{
+					rot += 90;
+					if (rot > 0)
+						break;
+					idx--;
+					if (idx == -1)
+						idx = 3;
+				};
+			return edge[idx];
 		}
 
 	}

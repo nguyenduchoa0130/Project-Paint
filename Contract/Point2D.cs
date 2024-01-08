@@ -11,8 +11,8 @@ namespace Contract
 {
     public class Point2D : IShape
     {
-        public double X { get; set; }
         public double Y { get; set; }
+        public double X { get; set; }
 
         public string Icon { get; }
 
@@ -27,16 +27,16 @@ namespace Contract
 		}
       
 
-        public void HandleStart(double x, double y)
+        public void HandleStart(double a, double b)
         {
-            X = x;
-            Y = y;
+            X = a;
+            Y = b;
         }
 
-        public void HandleEnd(double x, double y)
+        public void HandleEnd(double a, double b)
         {
-            X = x;
-            Y = y;
+            X = a;
+            Y = b;
         }
 
 
@@ -45,11 +45,11 @@ namespace Contract
             Line line = new Line()
             {
                 X1 = X,
-                Y1 = Y,
                 X2 = X,
+                Y1 = Y,
                 Y2 = Y,
-                StrokeThickness = thickness,
                 Stroke = brush,
+                StrokeThickness = thickness,
                 StrokeDashArray = dash
             };
 

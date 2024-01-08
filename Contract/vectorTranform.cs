@@ -19,9 +19,9 @@ namespace Contract
 
         public static Vector RotateRadians(this Vector v, double radians)
         {
-            double ca = Math.Cos(radians);
-            double sa = Math.Sin(radians);
-            return new Vector(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y);
+            double sinMath = Math.Sin(radians);
+            double cosMath = Math.Cos(radians);
+            return new Vector(cosMath * v.X - sinMath * v.Y, sinMath * v.X + cosMath * v.Y);
         }
     }
 

@@ -4,10 +4,10 @@
 	{
 		public static bool isBetween(double x, double x1, double x2)
 		{
-			if (x1 > x2)
-				return x < x1 && x > x2;
-			else
+			if (x1 <= x2)
 				return x < x2 && x > x1;
+			else
+				return x < x1 && x > x2;
 		}
 	}
 
@@ -25,24 +25,24 @@
 		{
 			return point.X;
 		}
-		virtual public void setCord(double x)
+		virtual public void setCord(double a)
 		{
-			point.X += x;
+			point.X += a;
 		}
 	}
 
 	public class cordY : cord
 	{
 		public cordY(Point2D temp) : base(temp) { }
+		public override void setCord(double x)
+		{
+			point.Y += x;
+		}
 
 		public override double getCord()
 		{
 			return point.Y;
 		}
 
-		public override void setCord(double x)
-		{
-			point.Y += x;
-		}
 	}
 }
