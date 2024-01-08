@@ -32,7 +32,6 @@ namespace Paint
         private bool _isEditMode = false;
         private bool _isSaved = false;
 
-        //memory buffers
         private List<IShape> _shapes = new List<IShape>();
         private Stack<IShape> _buffer = new Stack<IShape>();
         private IShape _preview = null;
@@ -40,16 +39,13 @@ namespace Paint
         private List<IShape> _copyBuffers = new List<IShape>();
         private List<IShape> _chosedShapes = new List<IShape>();
 
-        // Edit more variables
         private double editPreviousX = -1;
         private double editPreviousY = -1;
         private List<controlPoint> _controlPoints = new List<controlPoint>();
 
-        // Dictionary<string, IShape> _prototypes = new Dictionary<string, IShape>();
         private List<IShape> allShape = new List<IShape>();
         private ShapeFactory _factory = ShapeFactory.Instance;
 
-        // Shapes properties
         private static int _currentThickness = 1;
         private static SolidColorBrush _currentColor = new SolidColorBrush(Colors.Red);
         private static DoubleCollection _currentDash = null;
@@ -149,10 +145,8 @@ namespace Paint
             window.KeyDown += HandleKeyPress;
         }
 
-        //keyborad event
         private void HandleKeyPress(object sender, KeyEventArgs e)
         {
-            //can remove
             switch (e.Key)
             {
                 case Key.C:
@@ -214,7 +208,6 @@ namespace Paint
             }
             else if (MessageBoxResult.No == result)
             {
-                //reset
                 ResetToDefault();
                 return;
             }
@@ -382,7 +375,6 @@ namespace Paint
         private void drawingArea_MouseMove(object sender, MouseEventArgs e)
         {
 
-            //mouse change
             bool isChange = false;
             if (_chosedShapes.Count == 1)
             {
@@ -483,17 +475,14 @@ namespace Paint
                         };
                         List<int> rotate90 = new List<int>
                         {
-                        //xt, yt, xb, xb
                         3, 0, 1, 2
                         };
                         List<int> rotate180 = new List<int>
                         {
-                        //xt, yt, xb, xb
                         2, 3, 0, 1
                         };
                         List<int> rotate270 = new List<int>
                         {
-                        //xt, yt, xb, xb
                         1, 2, 3, 0
                         };
 
@@ -737,10 +726,6 @@ namespace Paint
             RedrawCanvas();
         }
 
-        private void drawingArea_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //this._isDrawing = false;
-        }
         private void drawingArea_MouseEnter(object sender, MouseEventArgs e)
         {
             if (this.allShape.Count == 0)

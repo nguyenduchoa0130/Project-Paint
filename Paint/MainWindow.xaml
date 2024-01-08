@@ -237,7 +237,7 @@
         <!--Drawing area-->
         <Grid>
             <Border Background="Transparent" IsHitTestVisible="True" MouseDown="drawingArea_MouseDown" MouseUp="drawingArea_MouseUp"
-                MouseMove="drawingArea_MouseMove" MouseEnter="drawingArea_MouseEnter" MouseLeave="drawingArea_MouseLeave"/>
+                MouseMove="drawingArea_MouseMove" MouseEnter="drawingArea_MouseEnter"/>
             <Canvas Name="drawingArea" IsHitTestVisible="False" ClipToBounds="True" Background="White" Height="550" Width="1250"/>
         </Grid>
     </StackPanel>
