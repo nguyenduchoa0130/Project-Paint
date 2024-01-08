@@ -1,6 +1,6 @@
-## Đề tài: Project Paint
-### Họ và tên: Nguyễn Đức Hòa
-### Mã số sinh viên: 21424019
+Họ và tên: Nguyễn Đức Hòa
+Mã số sinh viên: 21424019
+Đề tài: Project Paint
 Thư mục release nằm ở đường dẫn: 21424019\ProjectPaint\Paint\bin\Debug\net7.0-windows7.0
 Các chức năng đã thực hiện:
 1. Dynamically load all graphic objects that can be drawn from external DLL files
