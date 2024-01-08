@@ -14,96 +14,95 @@ namespace Circle2D
 
 
         public SolidColorBrush Brush { get; set; }
-        public string Name => "Circle";
-        public string Icon => "Images/circle.png";
         public int Thickness { get; set; }
+        public string Icon => "Images/circle.png";
+        public string Name => "Circle";
 
-        public void HandleStart(double x, double y)
+        public void HandleStart(double a, double b)
         {
-            _leftTop.X = x;
-            _leftTop.Y = y;
+            _leftTop.Y = b;
+            _leftTop.X = a;
         }
-        public void HandleEnd(double x, double y)
+        public void HandleEnd(double a, double b)
         {
-            _rightBottom.X = x;
-            _rightBottom.Y = y;
-
-            double width = Math.Abs(_rightBottom.X - _leftTop.X);
-            double height = Math.Abs(_rightBottom.Y - _leftTop.Y);
-            if (width < height)
+            _rightBottom.Y = b;
+            _rightBottom.X = a;
+            double heightEnd = Math.Abs(_rightBottom.Y - _leftTop.Y);
+            double widthEnd = Math.Abs(_rightBottom.X - _leftTop.X);
+            if (widthEnd < heightEnd)
             {
-                if (_rightBottom.Y < _leftTop.Y)
-                    _rightBottom.Y = _leftTop.Y - width;
+                if (_rightBottom.Y >= _leftTop.Y)
+                    _rightBottom.Y = _leftTop.Y + widthEnd;
                 else
-                    _rightBottom.Y = _leftTop.Y + width;
+                    _rightBottom.Y = _leftTop.Y - widthEnd;
             }
             else
-            if (width > height)
-            {
-                if (_rightBottom.X < _leftTop.X)
-                    _rightBottom.X = _leftTop.X - height;
-                else _rightBottom.X = _leftTop.X + height;
-            }
+                if (widthEnd > heightEnd)
+                {
+                    if (_rightBottom.X >= _leftTop.X)
+                        _rightBottom.X = _leftTop.X + heightEnd;
+                    else 
+                        _rightBottom.X = _leftTop.X - heightEnd;
+                }
         }
 
         public UIElement Draw(SolidColorBrush brush, int thickness, DoubleCollection dash)
         {
-            double width = Math.Abs(_rightBottom.X - _leftTop.X);
             double height = Math.Abs(_rightBottom.Y - _leftTop.Y);
+            double width = Math.Abs(_rightBottom.X - _leftTop.X);
 
-            var circle = new Ellipse()
+            var circleToDraw = new Ellipse()
             {
                 Width = width,
-                Height = height,
                 StrokeThickness = thickness,
                 Stroke = brush,
                 StrokeDashArray = dash,
+                Height = height,
             };
 
             if (_rightBottom.X > _leftTop.X && _rightBottom.Y > _leftTop.Y)
             {
-                Canvas.SetLeft(circle, _leftTop.X);
-                Canvas.SetTop(circle, _leftTop.Y);
+                Canvas.SetTop(circleToDraw, _leftTop.Y);
+                Canvas.SetLeft(circleToDraw, _leftTop.X);
             }
             else if (_rightBottom.X < _leftTop.X && _rightBottom.Y > _leftTop.Y)
             {
-                Canvas.SetLeft(circle, _rightBottom.X);
-                Canvas.SetTop(circle, _leftTop.Y);
+                Canvas.SetTop(circleToDraw, _leftTop.Y);
+                Canvas.SetLeft(circleToDraw, _rightBottom.X);
             }
             else if (_rightBottom.X > _leftTop.X && _rightBottom.Y < _leftTop.Y)
             {
-                Canvas.SetLeft(circle, _leftTop.X);
-                Canvas.SetTop(circle, _rightBottom.Y);
+                Canvas.SetTop(circleToDraw, _rightBottom.Y);
+                Canvas.SetLeft(circleToDraw, _leftTop.X);
             }
             else
             {
-                Canvas.SetLeft(circle, _rightBottom.X);
-                Canvas.SetTop(circle, _rightBottom.Y);
+                Canvas.SetTop(circleToDraw, _rightBottom.Y);
+                Canvas.SetLeft(circleToDraw, _rightBottom.X);
             }
 
-            return circle;
+            return circleToDraw;
         }
 
         public IShape Clone()
         {
             return new Circle2D();
         }
+
         override public CShape deepCopy()
         {
-            Circle2D temp = new Circle2D();
+            Circle2D tempDraw = new Circle2D();
 
-            temp.LeftTop = this._leftTop.deepCopy();
-            temp.RightBottom = this._rightBottom.deepCopy();
-            temp._rotateAngle = this._rotateAngle;
-            temp.Thickness = this.Thickness;
+            tempDraw.LeftTop = this._leftTop.deepCopy();
+            tempDraw.Thickness = this.Thickness;
+            tempDraw._rotateAngle = this._rotateAngle;
+            tempDraw.RightBottom = this._rightBottom.deepCopy();
+            if (this.StrokeDash != null)
+                tempDraw.StrokeDash = this.StrokeDash.Clone();
 
             if (this.Brush != null)
-                temp.Brush = this.Brush.Clone();
-
-            if (this.StrokeDash != null)
-                temp.StrokeDash = this.StrokeDash.Clone();
-
-            return temp;
+                tempDraw.Brush = this.Brush.Clone();
+            return tempDraw;
         }
     }
 }

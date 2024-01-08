@@ -11,18 +11,17 @@ namespace Contract
 		protected Point2D point;
 		protected Point2D centrePoint;
 
-		virtual public string type { get; set; }
-
 		virtual public string edge { get; set; }
+		virtual public string type { get; set; }
 		public controlPoint()
 		{
 			point = new Point2D();
 		}
 
-		public void setPoint(double x, double y)
+		public void setPoint(double a, double b)
 		{
-			point.X = x;
-			point.Y = y;
+			point.Y = b;
+			point.X = a;
 		}
 
 		public Point2D getPoint()
@@ -32,55 +31,55 @@ namespace Contract
 
 		virtual public UIElement drawPoint(double angle, Point2D centrePoint)
 		{
-			UIElement element = new Ellipse()
+            UIElement elementPoint = new Ellipse()
 			{
 				Width = size,
-				Height = size,
 				Fill = Brushes.White,
-				Stroke = Brushes.Black,
+				Height = size,
 				StrokeThickness = size / 5,
+				Stroke = Brushes.Black,
 			};
 
 			this.centrePoint = centrePoint;
 
-			//element.RenderTransform = rotateTransform;
+			//elementPoint.RenderTransform = rotateTransform;
 			Point pos = new Point(point.X, point.Y);
 			Point centre = new Point(centrePoint.X, centrePoint.Y);
 
 			Point afterTransform = VectorTranform.Rotate(pos, angle, centre);
 
-			Canvas.SetLeft(element, afterTransform.X - size / 2);
-			Canvas.SetTop(element, afterTransform.Y - size / 2);
+			Canvas.SetLeft(elementPoint, afterTransform.X - size / 2);
+			Canvas.SetTop(elementPoint, afterTransform.Y - size / 2);
 
-			return element;
+			return elementPoint;
 		}
 		virtual public bool isHovering(double angle, double x, double y)
 		{
-			Point pos = new Point(point.X, point.Y);
 			Point centre = new Point(centrePoint.X, centrePoint.Y);
+			Point pos = new Point(point.X, point.Y);
 
-			Point afterTransform = VectorTranform.Rotate(pos, angle, centre);
+			Point transform = VectorTranform.Rotate(pos, angle, centre);
 
-			return util.isBetween(x, afterTransform.X + 15, afterTransform.X - 15)
-				&& util.isBetween(y, afterTransform.Y + 15, afterTransform.Y - 15);
+			return util.isBetween(x, transform.X + 15, transform.X - 15)
+				&& util.isBetween(y, transform.Y + 15, transform.Y - 15);
 		}
 
-		virtual public string getEdge(double angle)
+		virtual public string getEdge(double angleDraw)
 		{
+			int idx;
 			string[] edge = { "topleft", "topright", "bottomright", "bottomleft" };
-			int index;
 			if (point.X > centrePoint.X)
 				if (point.Y > centrePoint.Y)
-					index = 2;
+					idx = 2;
 				else
-					index = 1;
+					idx = 1;
 			else
 				if (point.Y > centrePoint.Y)
-				index = 3;
+				idx = 3;
 			else
-				index = 0;
+				idx = 0;
 
-			double rot = angle;
+			double rot = angleDraw;
 
 			if (rot > 0)
 				while (true)
@@ -88,10 +87,10 @@ namespace Contract
 					rot -= 90;
 					if (rot < 0)
 						break;
-					index++;
+					idx++;
 
-					if (index == 4)
-						index = 0;
+					if (idx == 4)
+						idx = 0;
 				}
 			else
 				while (true)
@@ -99,25 +98,21 @@ namespace Contract
 					rot += 90;
 					if (rot > 0)
 						break;
-					index--;
-					if (index == -1)
-						index = 3;
+					idx--;
+					if (idx == -1)
+						idx = 3;
 				};
 
-			return edge[index];
+			return edge[idx];
 		}
 
-		virtual public Point2D handle(double angle, double x, double y)
+		virtual public Point2D handle(double angle, double a, double b)
 		{
-			Point2D result = new Point2D();
+			Point2D poin2ds = new Point2D();
+			poin2ds.Y = b;
+			poin2ds.X = a;
 
-			//result.X = Math.Cos(angle) * x + Math.Sin(angle) * y;
-			//result.Y = Math.Cos(angle) * y + Math.Sin(angle) * x;
-
-			result.X = x;
-			result.Y = y;
-
-			return result;
+			return poin2ds;
 		}
 	}
 }
