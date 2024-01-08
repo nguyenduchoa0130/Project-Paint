@@ -9,24 +9,24 @@ namespace Ellipse2D
 {
     public class Ellipse2D : CShape, IShape
     {
-        public int Thickness { get; set; }
         public DoubleCollection StrokeDash { get; set; }
+        public int Thickness { get; set; }
 
         public SolidColorBrush Brush { get; set; }
-        public string Name => "Ellipse";
         public string Icon => "Images/ellipse.png";
+        public string Name => "Ellipse";
 
 
-        public void HandleStart(double x, double y)
+        public void HandleStart(double a, double b)
         {
-            _leftTop.X = x;
-            _leftTop.Y = y;
+            _leftTop.Y = b;
+            _leftTop.X = a;
         }
 
-        public void HandleEnd(double x, double y)
+        public void HandleEnd(double m, double n)
         {
-            _rightBottom.X = x;
-            _rightBottom.Y = y;
+            _rightBottom.X = m;
+            _rightBottom.Y = n;
         }
 
         public UIElement Draw(SolidColorBrush brush, int thickness, DoubleCollection dash)
@@ -40,26 +40,25 @@ namespace Ellipse2D
             var width = right - left;
             var height = bottom - top;
 
-            var ellipse = new Ellipse()
+            var ellipseDraw = new Ellipse()
             {
-                Width = width,
                 Height = height,
+                Width = width,
                 Stroke = brush,
-
                 StrokeThickness = thickness,
                 StrokeDashArray = dash
 
             };
 
-            Canvas.SetLeft(ellipse, left);
-            Canvas.SetTop(ellipse, top);
+            Canvas.SetLeft(ellipseDraw, left);
+            Canvas.SetTop(ellipseDraw, top);
 
-            RotateTransform transform = new RotateTransform(this._rotateAngle);
-            transform.CenterX = width * 1.0 / 2;
-            transform.CenterY = height * 1.0 / 2;
+            RotateTransform transformDraw = new RotateTransform(this._rotateAngle);
+            transformDraw.CenterY = height * 1.0 / 2;
+            transformDraw.CenterX = width * 1.0 / 2;
 
-            ellipse.RenderTransform = transform;
-            return ellipse;
+            ellipseDraw.RenderTransform = transformDraw;
+            return ellipseDraw;
         }
 
         public IShape Clone()
@@ -68,20 +67,17 @@ namespace Ellipse2D
         }
         override public CShape deepCopy()
         {
-            Ellipse2D temp = new Ellipse2D();
-
-            temp.LeftTop = this._leftTop.deepCopy();
-            temp.RightBottom = this._rightBottom.deepCopy();
-            temp._rotateAngle = this._rotateAngle;
-            temp.Thickness = this.Thickness;
-
-            if (this.Brush != null)
-                temp.Brush = this.Brush.Clone();
-
+            Ellipse2D ellipse2D = new Ellipse2D();
+            ellipse2D.RightBottom = this._rightBottom.deepCopy();
+            ellipse2D.LeftTop = this._leftTop.deepCopy();
+            ellipse2D._rotateAngle = this._rotateAngle;
+            ellipse2D.Thickness = this.Thickness;
+           
             if (this.StrokeDash != null)
-                temp.StrokeDash = this.StrokeDash.Clone();
-
-            return temp;
+                ellipse2D.StrokeDash = this.StrokeDash.Clone();
+            if (this.Brush != null)
+                ellipse2D.Brush = this.Brush.Clone();
+            return ellipse2D;
         }
     }
 }

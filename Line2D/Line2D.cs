@@ -9,22 +9,21 @@ namespace Line2D
 {
 	public class Line2D : CShape, IShape
 	{
-		public DoubleCollection StrokeDash { get; set; }
-
 		public SolidColorBrush Brush { get; set; }
-		public string Name => "Line";
+		public DoubleCollection StrokeDash { get; set; }
 		public string Icon => "Images/line.png";
+		public string Name => "Line";
 
 		public int Thickness { get; set; }
 
-		public void HandleStart(double x, double y)
+		public void HandleStart(double a, double b)
 		{
-			_leftTop = new Point2D() { X = x, Y = y };
+			_leftTop = new Point2D() { X = a, Y = b };
 		}
 
-		public void HandleEnd(double x, double y)
+		public void HandleEnd(double a, double b)
 		{
-			_rightBottom = new Point2D() { X = x, Y = y };
+			_rightBottom = new Point2D() { X = a, Y = b };
 		}
 
 		public UIElement Draw(SolidColorBrush brush, int thickness, DoubleCollection dash)
@@ -32,37 +31,37 @@ namespace Line2D
 			Line line = new Line()
 			{
 				X1 = _leftTop.X,
-				Y1 = _leftTop.Y,
 				X2 = _rightBottom.X,
+				Y1 = _leftTop.Y,
 				Y2 = _rightBottom.Y,
-				StrokeThickness = thickness,
 				Stroke = brush,
+				StrokeThickness = thickness,
 				StrokeDashArray = dash
 			};
 
-			var width = Math.Abs(_leftTop.X - _rightBottom.X);
 			var height = Math.Abs(_leftTop.Y - _rightBottom.Y);
+			var width = Math.Abs(_leftTop.X - _rightBottom.X);
 
-			RotateTransform transform = new RotateTransform(this._rotateAngle);
+			RotateTransform transformDraw = new RotateTransform(this._rotateAngle);
 
-			line.RenderTransform = transform;
+			line.RenderTransform = transformDraw;
 			return line;
 		}
 		override public List<controlPoint> GetControlPoints()
 		{
-			List<controlPoint> controlPoints = new List<controlPoint>();
+			List<controlPoint> controlPointsDraw = new List<controlPoint>();
 
-			controlPoint diagPointTopLeft = new diagPoint();
-			diagPointTopLeft.setPoint(_leftTop.X, _leftTop.Y);
+			controlPoint diagPointTopLeft2D = new diagPoint();
+			diagPointTopLeft2D.setPoint(_leftTop.X, _leftTop.Y);
 
-			controlPoint diagPointBottomLeft = new diagPoint();
-			diagPointBottomLeft.setPoint(_leftTop.X, RightBottom.Y);
+			controlPoint diagPointBottomLeft2D = new diagPoint();
+			diagPointBottomLeft2D.setPoint(_leftTop.X, RightBottom.Y);
 
-			controlPoint diagPointTopRight = new diagPoint();
-			diagPointTopRight.setPoint(_rightBottom.X, _leftTop.Y);
+			controlPoint diagPointTopRight2D = new diagPoint();
+			diagPointTopRight2D.setPoint(_rightBottom.X, _leftTop.Y);
 
-			controlPoint diagPointBottomRight = new diagPoint();
-			diagPointBottomRight.setPoint(_rightBottom.X, _rightBottom.Y);
+			controlPoint diagPointBottomRight2D = new diagPoint();
+			diagPointBottomRight2D.setPoint(_rightBottom.X, _rightBottom.Y);
 
 			//one way control Point
 
@@ -78,23 +77,23 @@ namespace Line2D
 			controlPoint diagPointBottom = new oneSidePoint();
 			diagPointBottom.setPoint((_leftTop.X + _rightBottom.X) / 2, _rightBottom.Y);
 
-			controlPoint moveControlPoint = new controlPoint();
-			moveControlPoint.setPoint((_leftTop.X + _rightBottom.X) / 2, (_leftTop.Y + _rightBottom.Y) / 2);
-			moveControlPoint.type = "move";
+			controlPoint moveControlPoint2D = new controlPoint();
+			moveControlPoint2D.setPoint((_leftTop.X + _rightBottom.X) / 2, (_leftTop.Y + _rightBottom.Y) / 2);
+			moveControlPoint2D.type = "move";
 
-			controlPoints.Add(diagPointTopLeft);
-			controlPoints.Add(diagPointTopRight);
-			controlPoints.Add(diagPointBottomLeft);
-			controlPoints.Add(diagPointBottomRight);
+			controlPointsDraw.Add(diagPointTopLeft2D);
+			controlPointsDraw.Add(diagPointTopRight2D);
+			controlPointsDraw.Add(diagPointBottomLeft2D);
+			controlPointsDraw.Add(diagPointBottomRight2D);
 
-			controlPoints.Add(diagPointRight);
-			controlPoints.Add(diagPointLeft);
-			controlPoints.Add(diagPointBottom);
-			controlPoints.Add(diagPointTop);
+			controlPointsDraw.Add(diagPointRight);
+			controlPointsDraw.Add(diagPointLeft);
+			controlPointsDraw.Add(diagPointBottom);
+			controlPointsDraw.Add(diagPointTop);
 
-			controlPoints.Add(moveControlPoint);
+			controlPointsDraw.Add(moveControlPoint2D);
 
-			return controlPoints;
+			return controlPointsDraw;
 		}
 
 		public IShape Clone()
@@ -103,20 +102,20 @@ namespace Line2D
 		}
 		override public CShape deepCopy()
 		{
-			Line2D temp = new Line2D();
+			Line2D line2D = new Line2D();
 
-			temp.LeftTop = this._leftTop.deepCopy();
-			temp.RightBottom = this._rightBottom.deepCopy();
-			temp._rotateAngle = this._rotateAngle;
-			temp.Thickness = this.Thickness;
+			line2D.RightBottom = this._rightBottom.deepCopy();
+			line2D.LeftTop = this._leftTop.deepCopy();
+			line2D._rotateAngle = this._rotateAngle;
+			line2D.Thickness = this.Thickness;
 
 			if (this.Brush != null)
-				temp.Brush = this.Brush.Clone();
+				line2D.Brush = this.Brush.Clone();
 
 			if (this.StrokeDash != null)
-				temp.StrokeDash = this.StrokeDash.Clone();
+				line2D.StrokeDash = this.StrokeDash.Clone();
 
-			return temp;
+			return line2D;
 		}
 	}
 }
