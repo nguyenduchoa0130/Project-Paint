@@ -16,7 +16,6 @@ using System.Windows.Media.Imaging;
 namespace Paint
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Fluent.RibbonWindow
     {
@@ -70,17 +69,13 @@ namespace Paint
             {
                 _prototypes = new Dictionary<string, IShape>();
 
-                // Uncomment this block of code later to load dll file
+                string path = Assembly.GetExecutingAssembly().Location;
+                string folderData = System.IO.Path.GetDirectoryName(path);
 
-                string exePath = Assembly.GetExecutingAssembly().Location;
-                string folder = System.IO.Path.GetDirectoryName(exePath);
-
-                //check if shape folder exist
-
-                if (!Directory.Exists(folder + "/shapes"))
+                if (!Directory.Exists(folderData + "/shapes"))
                     return;
 
-                var fis = new DirectoryInfo(folder).GetFiles("shapes/*.dll");
+                var fis = new DirectoryInfo(folderData).GetFiles("shapes/*.dll");
 
                 Console.Write(fis.Count());
 
@@ -148,10 +143,8 @@ namespace Paint
             if (this.allShape.Count == 0)
                 return;
 
-            _selectedShapeName = allShape[0].Name;
             _preview = _factory.Create(_selectedShapeName);
-
-            //Handle kerydown event for entire application
+            _selectedShapeName = allShape[0].Name;
             var window = GetWindow(this);
             window.KeyDown += HandleKeyPress;
         }
@@ -183,7 +176,6 @@ namespace Paint
             }
             if (_shapes.Count == 0)
             {
-                // MessageBox.Show("This canvas is empty");
                 return;
             }
 
@@ -198,22 +190,15 @@ namespace Paint
 
             if (MessageBoxResult.Yes == result)
             {
-                // save then reset
-
-                // save 
                 var settings = new JsonSerializerSettings()
                 {
                     TypeNameHandling = TypeNameHandling.Objects
                 };
 
                 var serializedShapeList = JsonConvert.SerializeObject(_shapes, settings);
-
-                // experience 
                 StringBuilder builder = new StringBuilder();
                 builder.Append(serializedShapeList).Append("\n").Append($"{_backgroundImagePath}");
                 string content = builder.ToString();
-
-
                 var dialog = new System.Windows.Forms.SaveFileDialog();
 
                 dialog.Filter = "JSON (*.json)|*.json";
@@ -224,7 +209,6 @@ namespace Paint
                     File.WriteAllText(path, content);
                 }
 
-                // reset
                 ResetToDefault();
                 _isSaved = true;
             }
@@ -259,7 +243,6 @@ namespace Paint
                 string json = content[0];
                 if (content.Length > 1)
                     background = content[1];
-                //string json = File.ReadAllText(path);
 
 
                 var settings = new JsonSerializerSettings()
@@ -283,7 +266,6 @@ namespace Paint
                     drawingArea.Background = brush;
                 }
 
-                //MessageBox.Show($"{background}");
             }
 
             foreach (var shape in _shapes)
@@ -304,7 +286,6 @@ namespace Paint
 
             var serializedShapeList = JsonConvert.SerializeObject(_shapes, settings);
 
-            // experience 
             StringBuilder builder = new StringBuilder();
             builder.Append(serializedShapeList).Append("\n").Append($"{_backgroundImagePath}");
             string content = builder.ToString();
@@ -327,16 +308,10 @@ namespace Paint
             RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
              (int)canvas.Width, (int)canvas.Height,
              96d, 96d, PixelFormats.Pbgra32);
-            // needed otherwise the image output is black
             canvas.Measure(new Size((int)canvas.Width, (int)canvas.Height));
             canvas.Arrange(new Rect(new Size((int)canvas.Width, (int)canvas.Height)));
 
             renderBitmap.Render(canvas);
-
-            //JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-
-
-
 
             switch (extension)
             {
@@ -349,15 +324,6 @@ namespace Paint
                         pngEncoder.Save(file);
                     }
                     break;
-                case "jpeg":
-                    JpegBitmapEncoder jpegEncoder = new JpegBitmapEncoder();
-                    jpegEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-
-                    using (FileStream file = File.Create(filename))
-                    {
-                        jpegEncoder.Save(file);
-                    }
-                    break;
                 case "tiff":
                     TiffBitmapEncoder tiffEncoder = new TiffBitmapEncoder();
                     tiffEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
@@ -365,6 +331,15 @@ namespace Paint
                     using (FileStream file = File.Create(filename))
                     {
                         tiffEncoder.Save(file);
+                    }
+                    break;
+                case "jpeg":
+                    JpegBitmapEncoder jpegEncoder = new JpegBitmapEncoder();
+                    jpegEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                    using (FileStream file = File.Create(filename))
+                    {
+                        jpegEncoder.Save(file);
                     }
                     break;
                 case "bmp":
@@ -478,8 +453,6 @@ namespace Paint
 
                 if (_chosedShapes.Count > 1)
                 {
-                    //handle multiple shapes
-
                     _chosedShapes.ForEach(E =>
                     {
                         CShape K = (CShape)E;
@@ -493,14 +466,6 @@ namespace Paint
                 }
                 else
                 {
-                    // handle only one shapes
-                    /*
-					Console.WriteLine($"dx {dx}| dy {dy}");
-					Console.WriteLine($"currentPos {currentPos.X}| {currentPos.Y}");
-					Console.WriteLine($"x {editPreviousX}| y {editPreviousY}");
-					*/
-
-                    //controlPoint detect part
                     CShape shape = (CShape)_chosedShapes[0];
                     _controlPoints.ForEach(ctrlPoint =>
                     {
@@ -532,7 +497,7 @@ namespace Paint
                         1, 2, 3, 0
                         };
 
-                        List<List<int>> rotateList = new List<List<int>>()
+                        List<List<int>> listRotate = new List<List<int>>()
                         {
                         rotate0,
                         rotate90,
@@ -541,7 +506,7 @@ namespace Paint
                         };
 
                         double rot = shape.getRotateAngle();
-                        int index = 0;
+                        int idx = 0;
 
                         if (rot > 0)
                             while (true)
@@ -549,10 +514,10 @@ namespace Paint
                                 rot -= 90;
                                 if (rot < 0)
                                     break;
-                                index++;
+                                idx++;
 
-                                if (index == 4)
-                                    index = 0;
+                                if (idx == 4)
+                                    idx = 0;
                             }
                         else
                             while (true)
@@ -560,9 +525,9 @@ namespace Paint
                                 rot += 90;
                                 if (rot > 0)
                                     break;
-                                index--;
-                                if (index == -1)
-                                    index = 3;
+                                idx--;
+                                if (idx == -1)
+                                    idx = 3;
                             };
 
                         if (ctrlPoint.isHovering(shape.getRotateAngle(), currentPos.X, currentPos.Y))
@@ -601,7 +566,7 @@ namespace Paint
                                     {
                                         Point2D handledXY = ctrlPoint.handle(shape.getRotateAngle(), dx, dy);
 
-                                        switch (index)
+                                        switch (idx)
                                         {
                                             case 1:
                                                 handledXY.X *= -1;
@@ -624,58 +589,58 @@ namespace Paint
                                         {
                                             case "topleft":
                                                 {
-                                                    edges[rotateList[index][0]].setCord(handledXY.X);
-                                                    edges[rotateList[index][1]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][2]].setCord(-handledXY.X);
-                                                    edges[rotateList[index][3]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][0]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][1]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][2]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][3]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                             case "topright":
                                                 {
-                                                    edges[rotateList[index][2]].setCord(handledXY.X);
-                                                    edges[rotateList[index][1]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][0]].setCord(-handledXY.X);
-                                                    edges[rotateList[index][3]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][2]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][1]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][0]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][3]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                             case "bottomright":
                                                 {
-                                                    edges[rotateList[index][2]].setCord(handledXY.X);
-                                                    edges[rotateList[index][3]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][0]].setCord(-handledXY.X);
-                                                    edges[rotateList[index][1]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][2]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][3]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][0]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][1]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                             case "bottomleft":
                                                 {
-                                                    edges[rotateList[index][0]].setCord(handledXY.X);
-                                                    edges[rotateList[index][3]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][2]].setCord(-handledXY.X);
-                                                    edges[rotateList[index][1]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][0]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][3]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][2]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][1]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                             case "right":
                                                 {
-                                                    edges[rotateList[index][2]].setCord(handledXY.X);
-                                                    edges[rotateList[index][0]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][2]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][0]].setCord(-handledXY.X);
                                                     break;
                                                 }
                                             case "left":
                                                 {
-                                                    edges[rotateList[index][0]].setCord(handledXY.X);
-                                                    edges[rotateList[index][2]].setCord(-handledXY.X);
+                                                    edges[listRotate[idx][0]].setCord(handledXY.X);
+                                                    edges[listRotate[idx][2]].setCord(-handledXY.X);
                                                     break;
                                                 }
                                             case "top":
                                                 {
-                                                    edges[rotateList[index][1]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][3]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][1]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][3]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                             case "bottom":
                                                 {
-                                                    edges[rotateList[index][3]].setCord(handledXY.Y);
-                                                    edges[rotateList[index][1]].setCord(-handledXY.Y);
+                                                    edges[listRotate[idx][3]].setCord(handledXY.Y);
+                                                    edges[listRotate[idx][1]].setCord(-handledXY.Y);
                                                     break;
                                                 }
                                         }
@@ -701,17 +666,14 @@ namespace Paint
 
                 _preview.HandleEnd(pos.X, pos.Y);
 
-                // delete old shapes
                 drawingArea.Children.Clear();
 
-                // redraw all shapes
                 foreach (var shape in _shapes)
                 {
                     UIElement element = shape.Draw(shape.Brush, shape.Thickness, shape.StrokeDash);
                     drawingArea.Children.Add(element);
                 }
 
-                // lastly, draw preview object 
                 drawingArea.Children.Add(_preview.Draw(_currentColor, _currentThickness, _currentDash));
             }
         }
@@ -762,19 +724,15 @@ namespace Paint
             Point pos = e.GetPosition(drawingArea);
             _preview.HandleEnd(pos.X, pos.Y);
 
-            // Ddd to shapes list & save it color + thickness
             _shapes.Add(_preview);
             _preview.Brush = _currentColor;
             _preview.Thickness = _currentThickness;
             _preview.StrokeDash = _currentDash;
 
-            // Draw new thing -> isSaved = false
             _isSaved = false;
 
-            // Move to new preview 
             _preview = _factory.Create(_selectedShapeName);
 
-            // Re-draw the canvas
 
             RedrawCanvas();
         }
@@ -793,27 +751,20 @@ namespace Paint
 
             if (Mouse.LeftButton != MouseButtonState.Pressed && this._isDrawing)
             {
-                //wish there is a better solution like
-                // this.drawingArea_MouseUp(sender, e)
-                // but e is not MouseButtonEventArgs (;-;)
                 _isDrawing = false;
 
                 Point pos = e.GetPosition(drawingArea);
                 _preview.HandleEnd(pos.X, pos.Y);
 
-                // Ddd to shapes list & save it color + thickness
                 _shapes.Add(_preview);
                 _preview.Brush = _currentColor;
                 _preview.Thickness = _currentThickness;
                 _preview.StrokeDash = _currentDash;
 
-                // Draw new thing -> isSaved = false
                 _isSaved = false;
 
-                // Move to new preview 
                 _preview = _factory.Create(_selectedShapeName);
 
-                // Re-draw the canvas
                 RedrawCanvas();
             }
         }
@@ -968,15 +919,14 @@ namespace Paint
                 return;
 
             _isSaved = false;
-            _isDrawing = false;
             _isEditMode = false;
-
-            _chosedShapes.Clear();
+            _isDrawing = false;
 
             _shapes.Clear();
+            _chosedShapes.Clear();
 
-            _selectedShapeName = allShape[0].Name;
             _preview = _factory.Create(_selectedShapeName);
+            _selectedShapeName = allShape[0].Name;
 
             _currentThickness = 1;
             _currentColor = new SolidColorBrush(Colors.Red);
@@ -999,7 +949,6 @@ namespace Paint
             if (_shapes.Count == 0 && _buffer.Count == 0)
                 return;
 
-            // Push last shape into buffer and remove it from final list, then re-draw canvas
             int lastIndex = _shapes.Count - 1;
             _buffer.Push(_shapes[lastIndex]);
             _shapes.RemoveAt(lastIndex);
@@ -1013,8 +962,6 @@ namespace Paint
                 return;
             if (_shapes.Count == 0 && _buffer.Count == 0)
                 return;
-
-            // Pop the last shape from buffer and add it to final list, then re-draw canvas
             _shapes.Add(_buffer.Pop());
             RedrawCanvas();
         }
@@ -1029,8 +976,6 @@ namespace Paint
                 drawingArea.Children.Add(element);
             }
 
-            //control Point display ontop
-            //rework
             if (_isEditMode && _chosedShapes.Count > 0)
             {
                 _chosedShapes.ForEach(shape =>
@@ -1051,8 +996,6 @@ namespace Paint
                 });
             }
         }
-
-        //Tools tab event
 
         private void EditMode_Click(object sender, RoutedEventArgs e)
         {
@@ -1102,11 +1045,6 @@ namespace Paint
                 });
                 RedrawCanvas();
             }
-
-        }
-
-        private void Group_Click(object sender, RoutedEventArgs e)
-        {
 
         }
     }

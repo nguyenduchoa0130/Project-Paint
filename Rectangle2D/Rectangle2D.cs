@@ -10,51 +10,50 @@ namespace Rectangle2D
     public class Rectangle2D : CShape, IShape
     {
         public SolidColorBrush Brush { get; set; }
-
         public DoubleCollection StrokeDash { get; set; }
-        public string Icon => "Images/rectangle.png";
+
         public string Name => "Rectangle";
+        public string Icon => "Images/rectangle.png";
 
         public int Thickness { get; set; }
-
-        public void HandleStart(double x, double y)
+        public void HandleStart(double a, double b)
         {
-            _leftTop = new Point2D() { X = x, Y = y };
+            _leftTop = new Point2D() { X = a, Y = b };
         }
 
-        public void HandleEnd(double x, double y)
+        public void HandleEnd(double a, double b)
         {
-            _rightBottom = new Point2D() { X = x, Y = y };
+            _rightBottom = new Point2D() { X = a, Y = b };
         }
 
         public UIElement Draw(SolidColorBrush brush, int thickness, DoubleCollection dash)
         {
-            var left = Math.Min(_rightBottom.X, _leftTop.X);
             var top = Math.Min(_rightBottom.Y, _leftTop.Y);
+            var left = Math.Min(_rightBottom.X, _leftTop.X);
 
-            var right = Math.Max(_rightBottom.X, _leftTop.X);
             var bottom = Math.Max(_rightBottom.Y, _leftTop.Y);
+            var right = Math.Max(_rightBottom.X, _leftTop.X);
 
-            var width = right - left;
             var height = bottom - top;
+            var width = right - left;
 
             var rect = new Rectangle()
             {
-                Width = width,
                 Height = height,
-                StrokeThickness = thickness,
+                Width = width,
                 Stroke = brush,
+                StrokeThickness = thickness,
                 StrokeDashArray = dash
             };
 
-            Canvas.SetLeft(rect, left);
             Canvas.SetTop(rect, top);
+            Canvas.SetLeft(rect, left);
 
-            RotateTransform transform = new RotateTransform(this._rotateAngle);
-            transform.CenterX = width * 1.0 / 2;
-            transform.CenterY = height * 1.0 / 2;
+            RotateTransform transformDraw = new RotateTransform(this._rotateAngle);
+            transformDraw.CenterX = width * 1.0 / 2;
+            transformDraw.CenterY = height * 1.0 / 2;
 
-            rect.RenderTransform = transform;
+            rect.RenderTransform = transformDraw;
 
             return rect;
         }
@@ -66,20 +65,20 @@ namespace Rectangle2D
 
         override public CShape deepCopy()
         {
-            Rectangle2D temp = new Rectangle2D();
+            Rectangle2D rectangle2D = new Rectangle2D();
 
-            temp.LeftTop = this._leftTop.deepCopy();
-            temp.RightBottom = this._rightBottom.deepCopy();
-            temp._rotateAngle = this._rotateAngle;
-            temp.Thickness = this.Thickness;
+            rectangle2D.LeftTop = this._leftTop.deepCopy();
+            rectangle2D._rotateAngle = this._rotateAngle;
+            rectangle2D.RightBottom = this._rightBottom.deepCopy();
+            rectangle2D.Thickness = this.Thickness;
 
             if (this.Brush != null)
-                temp.Brush = this.Brush.Clone();
+                rectangle2D.Brush = this.Brush.Clone();
 
             if (this.StrokeDash != null)
-                temp.StrokeDash = this.StrokeDash.Clone();
+                rectangle2D.StrokeDash = this.StrokeDash.Clone();
 
-            return temp;
+            return rectangle2D;
         }
     }
 }
