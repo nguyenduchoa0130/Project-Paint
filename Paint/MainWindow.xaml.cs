@@ -70,20 +70,6 @@ namespace Paint
             {
                 _prototypes = new Dictionary<string, IShape>();
 
-                /*IShape line = new Line2D();
-                IShape rect = new Rectangle2D();
-                IShape ellipse = new Ellipse2D();
-                IShape circle = new Circle2D();
-                IShape square = new Square2D();
-
-                _prototypes.Add(line.Name, line);
-                _prototypes.Add(rect.Name, rect);
-                _prototypes.Add(ellipse.Name, ellipse);
-                _prototypes.Add(circle.Name, circle);
-                _prototypes.Add(square.Name, square);*/
-
-
-
                 // Uncomment this block of code later to load dll file
 
                 string exePath = Assembly.GetExecutingAssembly().Location;

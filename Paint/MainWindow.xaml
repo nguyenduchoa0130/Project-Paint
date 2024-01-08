@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Fluent="clr-namespace:Fluent;assembly=Fluent"
-        xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"  
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+
         xmlns:local="clr-namespace:Paint"
         mc:Ignorable="d"
         Title="Paint" Height="700" Width="1250" Loaded="RibbonWindow_Loaded">
