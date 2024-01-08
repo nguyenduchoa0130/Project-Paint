@@ -17,3 +17,11 @@ Các chức năng đã thực hiện:
 - Undo, Redo (Command)
 - Use Visitor design pattern (Suggestion: save objects into text file / xml file / json file / binary file)
 - Import / export / new file
+
+
+### Technical details
+- C# Winform Net 7.0
+- Design patterns: Singleton, Factory, Abstract factory, prototype
+- Plugin architecture
+- Delegate & event
+
