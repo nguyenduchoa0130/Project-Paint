@@ -32,7 +32,8 @@
     <None Remove="Images\thickness.png" />
     <None Remove="Images\undo.png" />
     <None Remove="Images\zoom_in.png" />
-    <None Remove="Images\zoom_out.png" />
+	<None Remove="Images\zoom_out.png" />
+	<None Remove="Images\triangle.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,7 +72,8 @@
     <Resource Include="Images\text.png" />
     <Resource Include="Images\undo.png" />
     <Resource Include="Images\zoom_in.png" />
-    <Resource Include="Images\zoom_out.png" />
+	<Resource Include="Images\zoom_out.png" />
+	<Resource Include="Images\triangle.png" />
   </ItemGroup>
 
   <ItemGroup>

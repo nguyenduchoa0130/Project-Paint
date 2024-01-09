@@ -7,15 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paint", "Paint\Paint.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contract", "Contract\Contract.csproj", "{9E88BE4C-E245-4C59-BA42-C27C7DF332B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareShape", "SquareShape\SquareShape.csproj", "{82EE114A-43E0-47B5-936A-DD797C006D84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SquareShape", "SquareShape\SquareShape.csproj", "{82EE114A-43E0-47B5-936A-DD797C006D84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectangleShape", "RectangleShape\RectangleShape.csproj", "{5A552DE2-B5D0-4DCE-B133-F4C09DFE9C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RectangleShape", "RectangleShape\RectangleShape.csproj", "{5A552DE2-B5D0-4DCE-B133-F4C09DFE9C31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LineDraw", "LineDraw\LineDraw.csproj", "{3190E15C-685F-4CC1-9560-80952CD6A5D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LineDraw", "LineDraw\LineDraw.csproj", "{3190E15C-685F-4CC1-9560-80952CD6A5D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EllipseShape", "EllipseShape\EllipseShape.csproj", "{F5038189-F817-4D60-9523-5D8E1308E1C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EllipseShape", "EllipseShape\EllipseShape.csproj", "{F5038189-F817-4D60-9523-5D8E1308E1C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleShape", "CircleShape\CircleShape.csproj", "{D9A8CDA1-6F4B-4309-B705-E8DEA3B068CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CircleShape", "CircleShape\CircleShape.csproj", "{D9A8CDA1-6F4B-4309-B705-E8DEA3B068CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleShape", "TriangleShape\TriangleShape.csproj", "{83B9C61F-C839-424E-AAF9-3EE4BEFBAC07}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{D9A8CDA1-6F4B-4309-B705-E8DEA3B068CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9A8CDA1-6F4B-4309-B705-E8DEA3B068CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9A8CDA1-6F4B-4309-B705-E8DEA3B068CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83B9C61F-C839-424E-AAF9-3EE4BEFBAC07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83B9C61F-C839-424E-AAF9-3EE4BEFBAC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83B9C61F-C839-424E-AAF9-3EE4BEFBAC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83B9C61F-C839-424E-AAF9-3EE4BEFBAC07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
