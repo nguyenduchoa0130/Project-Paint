@@ -715,8 +715,8 @@ namespace Paint
 
             _shapes.Add(_preview);
             _preview.Brush = _currentColor;
-            _preview.Thickness = _currentThickness;
             _preview.StrokeDash = _currentDash;
+            _preview.Thickness = _currentThickness;
 
             _isSaved = false;
 
@@ -743,8 +743,8 @@ namespace Paint
 
                 _shapes.Add(_preview);
                 _preview.Brush = _currentColor;
-                _preview.Thickness = _currentThickness;
                 _preview.StrokeDash = _currentDash;
+                _preview.Thickness = _currentThickness;
 
                 _isSaved = false;
 
@@ -794,29 +794,34 @@ namespace Paint
             _currentColor = new SolidColorBrush(Color.FromRgb(255, 0, 0));
         }
 
+        private void btnBasicBlue_Click(object sender, RoutedEventArgs e)
+        {
+            _currentColor = new SolidColorBrush(Color.FromRgb(0, 0, 255));
+        }
         private void btnBasicOrange_Click(object sender, RoutedEventArgs e)
         {
             _currentColor = new SolidColorBrush(Color.FromRgb(255, 165, 0));
         }
 
-        private void btnBasicBlue_Click(object sender, RoutedEventArgs e)
-        {
-            _currentColor = new SolidColorBrush(Color.FromRgb(0, 0, 255));
-        }
 
         private void btnBasicGreen_Click(object sender, RoutedEventArgs e)
         {
             _currentColor = new SolidColorBrush(Color.FromRgb(0, 255, 0));
         }
 
+        private void btnBasicPink_Click(object sender, RoutedEventArgs e)
+        {
+            _currentColor = new SolidColorBrush(Color.FromRgb(255, 182, 193));
+        }
         private void btnBasicPurple_Click(object sender, RoutedEventArgs e)
         {
             _currentColor = new SolidColorBrush(Color.FromRgb(191, 64, 191));
         }
 
-        private void btnBasicPink_Click(object sender, RoutedEventArgs e)
+
+        private void btnBasicBrown_Click(object sender, RoutedEventArgs e)
         {
-            _currentColor = new SolidColorBrush(Color.FromRgb(255, 182, 193));
+            _currentColor = new SolidColorBrush(Color.FromRgb(160, 82, 45));
         }
 
         private void btnBasicYellow_Click(object sender, RoutedEventArgs e)
@@ -824,11 +829,7 @@ namespace Paint
             _currentColor = new SolidColorBrush(Color.FromRgb(255, 255, 0));
         }
 
-        private void btnBasicBrown_Click(object sender, RoutedEventArgs e)
-        {
-            _currentColor = new SolidColorBrush(Color.FromRgb(160, 82, 45));
-        }
-
+        
         #endregion
 
         private void iconListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -982,16 +983,7 @@ namespace Paint
             }
         }
 
-        private void EditMode_Click(object sender, RoutedEventArgs e)
-        {
-            this._isEditMode = !this._isEditMode;
-            if (_isEditMode)
-                EditMode.Header = "Edit Mode";
-            else EditMode.Header = "Draw Mode";
-
-            if (!this._isEditMode)
-                this._chosedShapes.Clear();
-        }
+        
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
@@ -1008,6 +1000,16 @@ namespace Paint
             }
         }
 
+        private void EditMode_Click(object sender, RoutedEventArgs e)
+                {
+                    this._isEditMode = !this._isEditMode;
+                    if (_isEditMode)
+                        EditMode.Header = "Edit Mode";
+                    else EditMode.Header = "Draw Mode";
+
+                    if (!this._isEditMode)
+                        this._chosedShapes.Clear();
+                }
         private void copyButton_Click(object sender, RoutedEventArgs e)
         {
             if (this._isEditMode)
