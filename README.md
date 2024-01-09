@@ -24,4 +24,30 @@ Các chức năng đã thực hiện:
 - Design patterns: Singleton, Factory, Abstract factory, prototype
 - Plugin architecture
 - Delegate & event
+### Install app:
+1. Rum app
+```
+    ProjectPaint\Setup1\Debug\Setup1.msi
+```
 
+2. Copy folder shapes and place it on folder which was used to install app
+```
+    ProjectPaint\shapes
+```
+3. Run file .exe in install folder:
+```
+    Paint.exe
+```
+### Features:
+1/ Draw shape:
+  ![dashboard](./Overview/1.png)
+
+
+2/ Edit mode: move, rotate
+    ![dashboard](./Overview/2.png)
+
+3/ Save image
+    ![dashboard](./Overview/3.png)
+
+4/ Edit with image which is imported by brower
+    ![dashboard](./Overview/4.png)
